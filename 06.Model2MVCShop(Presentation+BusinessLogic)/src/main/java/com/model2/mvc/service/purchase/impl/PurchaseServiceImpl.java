@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.Payment;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
+import com.model2.mvc.service.payment.PaymentDao;
 import com.model2.mvc.service.product.ProductDao;
 import com.model2.mvc.service.purchase.PurchaseDao;
 import com.model2.mvc.service.purchase.PurchaseService;
@@ -27,6 +29,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 	
 	@Autowired
 	private ProductDao productDao;
+	
+	@Autowired
+	private PaymentDao paymentDao;
 	
 	public PurchaseServiceImpl() {
 		System.out.println("::"+getClass()+" default Constructor Call.....");
@@ -54,10 +59,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 	
 	@Override
 	public int addPurchase(Purchase purchase) throws Exception {
-		
+		//User 정보 변경
 		User user = purchase.getBuyer();
 		userDao.updateUser(user);
 		
+		//Product 정보 변경
 		Product product = purchase.getPurchaseProd();
 		productDao.updateProduct(product);
 		

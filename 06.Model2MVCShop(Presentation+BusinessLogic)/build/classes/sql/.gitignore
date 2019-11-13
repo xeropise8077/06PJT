@@ -1,3 +1,5 @@
 /UserMapper.xml
 /ProductMapper01.xml
 /PurchaseMapper01.xml
+/PaymentMapper.xml
+/mybatis-config13.xml

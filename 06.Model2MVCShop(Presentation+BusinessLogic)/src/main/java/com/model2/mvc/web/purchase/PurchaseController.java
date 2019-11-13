@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.Payment;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
+import com.model2.mvc.service.payment.PaymentService;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.purchase.PurchaseService;
@@ -41,6 +43,9 @@ public class PurchaseController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private PaymentService paymentService;
 	
 	public PurchaseController(){
 		System.out.println(this.getClass());
@@ -78,20 +83,27 @@ public class PurchaseController {
 	public String addPurchase( @ModelAttribute("purchase") Purchase purchase, @RequestParam("prodNo") int prodNo, HttpServletRequest request) throws Exception {
 		
 		System.out.println("/addPurchase.do");
-		
+		int price = Integer.parseInt( request.getParameter("price"));
 		int money = Integer.parseInt( request.getParameter("money") );
 		int wishPay = Integer.parseInt( request.getParameter("wishPay") );
 		int count = Integer.parseInt( request.getParameter("count") );
 		
 		// 갯수 * 재화 값
-		money = money * count;
-		wishPay = wishPay * count;
+		int FinalPrice = price * count;
+		int Finalmoney = money * count;
+		int FinalwishPay = wishPay * count;
+		
+
 		
 		// purchase에 변경된  money, pay 적용
 		User user =(User)request.getSession().getAttribute("user");
 		user =userService.getUser(user.getUserId());
-		user.setMoney( user.getMoney()- money);
-		user.setWishPay( user.getWishPay()- wishPay);
+		user.setMoney( user.getMoney()- Finalmoney);
+		user.setWishPay( user.getWishPay()- FinalwishPay);
+		
+
+		
+		
 //		userService.updateUser(user); // tranSaction 적용 위해 주석처리
 		purchase.setBuyer(user);
 		
@@ -100,6 +112,21 @@ public class PurchaseController {
 		Product product = productService.getProduct(prodNo);
 		product.setStockCount( product.getStockCount()-count );
 //		productService.updateProduct(product); // tranSaction 적용 위해 주석처리
+		
+		// 영수증 추가
+		Payment payment =paymentService.getPayment(0);
+		payment.setBuyer_id( user.getUserId() );
+		payment.setProdNo(prodNo);
+		payment.setPrice(FinalPrice);
+		payment.setPaymentByMoney(Finalmoney);
+		payment.setPaymentByWishPay(FinalwishPay);
+		
+		int b=paymentService.addPayment(payment);
+		if(b==1) {
+			System.out.println("[ 영수증 추가 완료]");
+		}else {
+			System.out.println("[ 영수증 추가 실패]");
+		}		
 		
 		purchase.setBuyer(user);
 		purchase.setPurchaseProd(product);

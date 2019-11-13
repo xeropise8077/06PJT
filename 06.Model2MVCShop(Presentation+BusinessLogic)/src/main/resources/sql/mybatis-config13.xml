@@ -20,6 +20,7 @@
 		<typeAlias alias="Product" type="com.model2.mvc.service.domain.Product" />
 		<typeAlias alias="Purchase" type="com.model2.mvc.service.domain.Purchase" />
 		<typeAlias alias="ProductPurchase" type="com.model2.mvc.service.domain.ProductPurchase" />
+		<typeAlias alias="Payment" type="com.model2.mvc.service.domain.Payment" />
 	</typeAliases>
 	
 	
@@ -41,5 +42,6 @@
 	 	<mapper resource="sql/UserMapper.xml"/>
 	 	<mapper resource="sql/ProductMapper01.xml"/>
 	 	<mapper resource="sql/PurchaseMapper01.xml"/>
+	 	<mapper resource="sql/PaymentMapper.xml"/>
 	 </mappers>
 </configuration>
