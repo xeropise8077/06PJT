@@ -20,10 +20,23 @@
 
 <script type="text/javascript">
 
-
-
-function fncAddPurchase(){
-	document.addPurchase.submit();	
+function fncAddPurchase() {
+	
+	var a =parseInt(document.getElementById('money').value)
+	var b =parseInt(document.getElementById('wishPay').value)
+	var c =parseInt(document.getElementById('count').value)
+	var payment = (a+b)*c;
+	var productPrice = parseInt('${product.price}')*c;
+	
+	if(productPrice==payment){
+		
+		document.addPurchase.submit();
+	}else if(productPrice<payment){
+		alert('금액 '+productPrice+' 보다 현금과 캐쉬를 초과 사용하셨습니다.')
+		document.getElementById('money').focus();
+	}else{
+		alert('금액 '+productPrice+' 에 맞게 사용해주세요.\n현금과 캐쉬를 사용해주세요.')
+	}
 }
 
 
@@ -101,9 +114,17 @@ function fncAddPurchase(){
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	<tr>
-		<td width="104" class="ct_write">가격</td>
+		<td width="104" class="ct_write">가격
 		<input type="hidden" name="price" value="${ product.price }" />
+		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
+		<td class="ct_write01">${ product.price}</td>
+		<td class="ct_write01">
+		 현금<input type="number" id="money" name="money" min="0" max="${ product.price}" value="0">
+		</td>
+		<td class="ct_write01">
+		위시페이<input type="number" id="wishPay" name="wishPay" min="0" max="${ product.price}" value="${ product.price}">
+		</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -111,7 +132,10 @@ function fncAddPurchase(){
 	<tr>
 		<td width="104" class="ct_write">등록일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ product.regDate }<%--= product.getRegDate()--%></td>
+		<td class="ct_write01">${ product.regDate }</td>
+		<td class="ct_write01">
+		개수<input type="number" id="count" name="count" min="0" max="${ product.stockCount}" value="1">
+		</td>
 	</tr> 
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>

@@ -17,7 +17,7 @@
 		<result property="regDate" column="REG_DATE" jdbcType="DATE" />
 		<result property="tranCode" column="tran_status_code" jdbcType="VARCHAR" />
 		<result property="tranNo" column="tran_no" jdbcType="INTEGER" />
-	
+		<result property="stockCount" column="stockCount" jdbcType="INTEGER" />
 	</resultMap>
 
 	<resultMap type="product" id="productSelectMap">
@@ -28,6 +28,7 @@
 		<result property="prodName" column="PROD_NAME" jdbcType="VARCHAR" />
 		<result property="prodNo" column="PROD_NO" jdbcType="INTEGER" />
 		<result property="regDate" column="REG_DATE" jdbcType="DATE" />
+		<result property="stockCount" column="stockCount" jdbcType="INTEGER" />
 	</resultMap>
 
 
@@ -94,14 +95,15 @@
 
 	<insert id="addProduct" parameterType="product">
 		insert into product
-		(PROD_NO,PROD_NAME,PROD_DETAIL,MANUFACTURE_DAY,PRICE,IMAGE_FILE,REG_DATE)
+		(PROD_NO,PROD_NAME,PROD_DETAIL,MANUFACTURE_DAY,PRICE,IMAGE_FILE,REG_DATE,STOCKCOUNT)
 		values (seq_product_prod_no.NEXTVAL,
 		#{prodName:VARCHAR},
 		#{prodDetail:VARCHAR},
 		#{manuDate:VARCHAR},
 		#{price:INTEGER},
 		#{fileName:VARCHAR},
-		SYSDATE)
+		SYSDATE,
+		#{stockCount:INTEGER} )
 	</insert>
 	
 	<!-- trim태그 사이에 다른 절이 삽입되는경우에, 다른 태그도 Overrides동작을 같이 받는다.. -->
@@ -113,13 +115,13 @@
 			<if test="manuDate !=null">manufacture_day = #{manuDate},</if>
 			<if test="price !=null">price = #{price},</if>
 			<if test="fileName !=null">image_file = #{fileName},</if>
+			<if test="stockCount !=null">stockCount = #{stockCount},</if>
 		</trim>
 			<where>
 				prod_no = #{prodNo}
 			</where>
 
 	</update>
-	
 	
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)

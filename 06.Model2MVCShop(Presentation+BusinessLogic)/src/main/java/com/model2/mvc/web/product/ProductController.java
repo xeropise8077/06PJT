@@ -52,7 +52,8 @@ public class ProductController {
 	public String addProduct( @ModelAttribute("product") Product product) throws Exception {
 
 		System.out.println("/addProduct.do");
-		
+		System.out.println(product.getManuDate().replace("-", ""));
+		product.setManuDate( product.getManuDate().replace("-", "") );
 		productService.addProduct(product);
 		
 		return "redirect:/index.jsp";

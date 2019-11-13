@@ -13,7 +13,7 @@ public class ProductPurchase {
 	private Date regDate;	
 	private String tranCode;
 	private int tranNo;
-	
+	private int stockCount;	
 	
 	public String getFileName() {
 		return fileName;
@@ -73,7 +73,13 @@ public class ProductPurchase {
 	public String toString() {
 		return "ProductPurchase [fileName=" + fileName + ", manuDate=" + manuDate + ", price=" + price + ", prodDetail="
 				+ prodDetail + ", prodName=" + prodName + ", prodNo=" + prodNo + ", regDate=" + regDate + ", tranCode="
-				+ tranCode + ", tranNo=" + tranNo + "]";
+				+ tranCode + ", tranNo=" + tranNo +  ", stockCount=" + stockCount +"]";
+	}
+	public int getStockCount() {
+		return stockCount;
+	}
+	public void setStockCount(int stockCount) {
+		this.stockCount = stockCount;
 	}
 	
 	

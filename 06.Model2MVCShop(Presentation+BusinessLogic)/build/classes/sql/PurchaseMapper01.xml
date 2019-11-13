@@ -19,11 +19,12 @@
 		<result jdbcType="VARCHAR" column="dlvy_date" property="divyDate"/>
 		<result jdbcType="INTEGER" column="PROD_NO" property="purchaseProd.prodNo"/>
 		<result jdbcType="VARCHAR" column="BUYER_ID" property="buyer.userId"/>
+		<result jdbcType="INTEGER" column="count" property="count"/>
 	</resultMap>
 	
 	<insert id="addPurchase" parameterType="purchase">
 		INSERT INTO transaction 
-		(TRAN_NO, PROD_NO, BUYER_ID, PAYMENT_OPTION, RECEIVER_NAME, RECEIVER_PHONE, DEMAILADDR, DLVY_REQUEST, DLVY_DATE, TRAN_STATUS_CODE )
+		(TRAN_NO, PROD_NO, BUYER_ID, PAYMENT_OPTION, RECEIVER_NAME, RECEIVER_PHONE, DEMAILADDR, DLVY_REQUEST, DLVY_DATE, TRAN_STATUS_CODE, COUNT )
 		VALUES (seq_transaction_tran_no.nextval, 
 		#{purchaseProd.prodNo:INTEGER}, 
 		#{buyer.userId:VARCHAR}, 
@@ -33,7 +34,8 @@
 		#{divyAddr:VARCHAR}, 
 		#{divyRequest:VARCHAR}, 
 		#{divyDate:VARCHAR}, 
-		'1' )
+		'1',
+		#{count:INTEGER} )
 	</insert>
 
 

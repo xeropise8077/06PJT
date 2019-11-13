@@ -4,13 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.User;
+import com.model2.mvc.service.product.ProductDao;
 import com.model2.mvc.service.purchase.PurchaseDao;
 import com.model2.mvc.service.purchase.PurchaseService;
+import com.model2.mvc.service.user.UserDao;
 
 @Service("purchaseServiceImpl")
 public class PurchaseServiceImpl implements PurchaseService {
@@ -19,20 +22,44 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Autowired
 	private PurchaseDao purchaseDao;
 	
+	@Autowired
+	private UserDao userDao;
+	
+	@Autowired
+	private ProductDao productDao;
+	
 	public PurchaseServiceImpl() {
 		System.out.println("::"+getClass()+" default Constructor Call.....");
 	}
 	
 
 	public void setPurchaseDao(PurchaseDao purchaseDao) {
-		System.out.println("::"+getClass()+".setProductDao Call......");
+		System.out.println("::"+getClass()+".setPurchaseDao Call......");
 		this.purchaseDao=purchaseDao;
 		
 	}
+//	
+//	public void setUserDao(UserDao userDao) {
+//		System.out.println("::"+getClass()+".setUserDao Call......");
+//		this.userDao=userDao;
+//		
+//	}
+	
+//	public void setProductDao(ProductDao productDao) {
+//		System.out.println("::"+getClass()+".setProductDao Call......");
+//		this.productDao = productDao;
+//		
+//	}	
 	
 	
 	@Override
 	public int addPurchase(Purchase purchase) throws Exception {
+		
+		User user = purchase.getBuyer();
+		userDao.updateUser(user);
+		
+		Product product = purchase.getPurchaseProd();
+		productDao.updateProduct(product);
 		
 		return purchaseDao.addPurchase(purchase);
 
@@ -41,6 +68,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	@Override
 	public Purchase getPurchase(int tranNo) throws Exception {
+		
 		
 		return purchaseDao.getPurchase(tranNo);
 	}

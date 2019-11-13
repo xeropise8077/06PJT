@@ -23,6 +23,7 @@ import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.purchase.PurchaseService;
+import com.model2.mvc.service.user.UserService;
 
 
 
@@ -37,6 +38,9 @@ public class PurchaseController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private UserService userService;
 	
 	public PurchaseController(){
 		System.out.println(this.getClass());
@@ -75,11 +79,32 @@ public class PurchaseController {
 		
 		System.out.println("/addPurchase.do");
 		
-		Product product =productService.getProduct(prodNo);
-		User user= (User)request.getSession().getAttribute("user");
+		int money = Integer.parseInt( request.getParameter("money") );
+		int wishPay = Integer.parseInt( request.getParameter("wishPay") );
+		int count = Integer.parseInt( request.getParameter("count") );
+		
+		// 갯수 * 재화 값
+		money = money * count;
+		wishPay = wishPay * count;
+		
+		// purchase에 변경된  money, pay 적용
+		User user =(User)request.getSession().getAttribute("user");
+		user =userService.getUser(user.getUserId());
+		user.setMoney( user.getMoney()- money);
+		user.setWishPay( user.getWishPay()- wishPay);
+//		userService.updateUser(user); // tranSaction 적용 위해 주석처리
+		purchase.setBuyer(user);
+		
+		
+		// purchase에 변경된 stockCount 적용
+		Product product = productService.getProduct(prodNo);
+		product.setStockCount( product.getStockCount()-count );
+//		productService.updateProduct(product); // tranSaction 적용 위해 주석처리
 		
 		purchase.setBuyer(user);
 		purchase.setPurchaseProd(product);
+		
+		
 		int i=purchaseService.addPurchase(purchase);
 		if(i==1) {
 			System.out.println("[ Purchase 추가 완료]");
