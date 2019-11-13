@@ -25,6 +25,6 @@ public interface UserService {
 	// 회원 ID 중복 확인
 	public boolean checkDuplication(String userId) throws Exception;
 	
-	public int chargePay(String userId, int wishPay ) throws Exception;
+	public int chargeWishPay(String userId, int wishPay ) throws Exception;
 	
 }

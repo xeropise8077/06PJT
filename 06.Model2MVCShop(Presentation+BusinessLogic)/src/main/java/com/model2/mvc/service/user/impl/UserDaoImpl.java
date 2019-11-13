@@ -54,7 +54,7 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public int chargePay(String userId, int wishPay) throws Exception {
+	public int chargeWishPay(String userId, int wishPay) throws Exception {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		

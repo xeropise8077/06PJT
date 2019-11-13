@@ -182,7 +182,7 @@ public class UserController {
 		
 		UserService service = new UserServiceImpl();
 		
-		int i =service.chargePay(user.getUserId(),wishPay);
+		int i =service.chargeWishPay(user.getUserId(),wishPay);
 		if(i==1) {
 			System.out.println("pay 충전에 성공하셨습니다.");
 		}else {

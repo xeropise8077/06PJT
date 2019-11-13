@@ -46,6 +46,16 @@
 	   	</set>
 	   	WHERE user_id = #{userId}
 	 </update>
+	 
+	 <update id="chargeWishPay" parameterType="map">
+	 	UPDATE users
+	 	<trim prefix="SET" suffixOverrides=",">
+	 		<if test="wishPay != null">WISHPAY = #{wishPay},</if>
+	 	</trim>
+	 	<where>
+	 		user_id = #{userId}
+	 	</where>
+	 </update>
 		 
 	<!-- SQL : SELECT LIST -->
 	<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
