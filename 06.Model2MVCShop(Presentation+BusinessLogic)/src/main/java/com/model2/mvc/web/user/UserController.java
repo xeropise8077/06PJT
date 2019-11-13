@@ -1,6 +1,6 @@
 package com.model2.mvc.web.user;
 
-import java.util.HashMap;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,6 @@ import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.user.UserService;
-import com.model2.mvc.service.user.impl.UserServiceImpl;
 
 
 //==> 회원관리 Controller
@@ -71,7 +70,9 @@ public class UserController {
 		System.out.println("/getUser.do");
 		//Business Logic
 		User user = userService.getUser(userId);
+		
 		// Model 과 View 연결
+		
 		model.addAttribute("user", user);
 		
 		return "forward:/user/getUser.jsp";
@@ -178,11 +179,11 @@ public class UserController {
 		
 		System.out.println("/chargeWishPay.do");
 		
+		
 		User user =(User)request.getSession().getAttribute("user");
 		
-		UserService service = new UserServiceImpl();
 		
-		int i =service.chargeWishPay(user.getUserId(),wishPay);
+		int i =userService.chargeWishPay(user.getUserId(),wishPay);
 		if(i==1) {
 			System.out.println("pay 충전에 성공하셨습니다.");
 		}else {

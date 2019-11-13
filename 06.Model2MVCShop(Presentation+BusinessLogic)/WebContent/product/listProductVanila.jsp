@@ -115,7 +115,7 @@
 					<td></td>
 					<td align="left">${ Purchase.regDate }</td>
 					<td></td>
-					<td align="left"><img src="${ Purchase.fileName }" width="200" height="200" alt="My Image"></td>
+					<td align="left"><img src="${Purchase.fileName}" width="200" height="200" alt="My Image"></td>
 				</tr>
 			</c:forEach>
 			<tr>

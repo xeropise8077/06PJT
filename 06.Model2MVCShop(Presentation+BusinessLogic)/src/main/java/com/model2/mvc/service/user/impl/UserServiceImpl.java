@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int chargeWishPay(String userId, int wishPay) throws Exception {
 		
-		return userDao.chargeWishPay(userId, wishPay);
+		int result = (int) (wishPay*1.02);
+		return userDao.chargeWishPay(userId, result);
 	}
 }
