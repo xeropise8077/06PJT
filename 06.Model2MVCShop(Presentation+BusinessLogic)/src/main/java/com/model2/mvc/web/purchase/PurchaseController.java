@@ -113,23 +113,18 @@ public class PurchaseController {
 		product.setStockCount( product.getStockCount()-count );
 //		productService.updateProduct(product); // tranSaction 적용 위해 주석처리
 		
-		// 영수증 추가
-		Payment payment =paymentService.getPayment(0);
-		payment.setBuyer_id( user.getUserId() );
-		payment.setProdNo(prodNo);
-		payment.setPrice(FinalPrice);
-		payment.setPaymentByMoney(Finalmoney);
-		payment.setPaymentByWishPay(FinalwishPay);
 		
-		int b=paymentService.addPayment(payment);
-		if(b==1) {
-			System.out.println("[ 영수증 추가 완료]");
-		}else {
-			System.out.println("[ 영수증 추가 실패]");
-		}		
-		
-		purchase.setBuyer(user);
-		purchase.setPurchaseProd(product);
+//		// 영수증 추가
+//		Payment payment =paymentService.getPayment(0);
+//		payment.setBuyer_id( user.getUserId() );
+//		payment.setProdNo(prodNo);
+//		payment.setPrice(FinalPrice);
+//		payment.setPaymentByMoney(Finalmoney);
+//		payment.setPaymentByWishPay(FinalwishPay);
+//		System.out.println(payment);
+//		
+//		purchase.setBuyer(user);
+//		purchase.setPurchaseProd(product);
 		
 		
 		int i=purchaseService.addPurchase(purchase);
